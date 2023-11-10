@@ -1,15 +1,32 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    age: Number,
-    licenseNo: String,
+    firstname: { type: String, default: 'default' },
+    lastname: { type: String, default: 'default' },
+    age: { type: Number, default: 0 },
+    licenseNo: { type: String, default: 'default' },
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    userType: { type: String, enum: ['Driver', 'Examiner', 'Admin'], default: 'Driver' },
     car_details: {
-        make: String,
-        model: String,
-        year: Number,
-        platno: String
+        make: { type: String, default: 'default' },
+        model: { type: String, default: 'default' },
+        year: { type: Number, default: 0 },
+        platno: { type: String, default: 'default' }
+    }
+});
+
+// Password hashing middleware
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) return next();
+
+    try {
+        const salt = await bcrypt.genSalt();
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (error) {
+        next(error);
     }
 });
 
