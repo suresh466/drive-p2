@@ -15,6 +15,9 @@
                 </div>
             </div>
         </section>
+        <% if(typeof message !== 'undefined') { %>
+        <p><%= message %></p>
+        <% } %>
 
         <%- include ('layouts/scripts'); -%>
     </body>
