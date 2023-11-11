@@ -13,7 +13,7 @@ const login = async (req, res) => {
             req.session.userId = user._id;
             res.redirect('/dashboard');
         } else {
-            res.render('login', {page: 'login/signup', message: 'Invalid credentials' });
+            res.render('login', {page: 'login/signup', errors: [] });
         }
     } catch (err) {
         res.status(500).send('Error during login: ' + err.message)
@@ -22,15 +22,11 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
-        if (req.body.password === req.body.repeat_password) {
-            const user = new User({ ...req.body});
-            await user.save();
-            res.render('login', {page: 'login/signup', message: 'User created. Proceed to login!' });
+        const user = new User({ ...req.body});
+        await user.save();
+        res.render('login', {page: 'login/signup', errors: [] });
         }
-        else {
-            res.render('login', {page: 'login/signup', message: 'Unmatching Password' });
-        }
-    } catch (err) {
+    catch (err) {
         res.status(500).send('Error during signup: ' + err.message);
     }
 };

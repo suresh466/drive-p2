@@ -4,7 +4,7 @@ const session = require('express-session');
 
 const User = require('./models/user');
 
-const {validateG2Middleware, validateGMiddleware} = require('./middleware/validateMiddlewares')
+const {validateG2Middleware, validateGMiddleware, validateSignup} = require('./middleware/validateMiddlewares')
 const { checkLoggedIn, checkDriver, addIsLoggedInToLocals } = require('./middleware/authMiddleware');
 
 const generalController = require('./controllers/generalController');
@@ -39,7 +39,7 @@ app.get('/dashboard', checkLoggedIn, generalController.dashboard);
 
 app.get('/login', userController.renderLogin);
 app.post('/login', userController.login);
-app.post('/signup', userController.signup);
+app.post('/signup', validateSignup, userController.signup);
 app.get('/logout', userController.logout);
 
 app.get('/g2', checkDriver, testController.g2);

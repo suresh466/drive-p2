@@ -6,11 +6,11 @@
         <%- include ('layouts/hero'); -%>
 
         <div class="container mt-4">
-            <% if (typeof message !== 'undefined') { %>
+            <% errors.forEach(error => { %>
                 <div class="alert alert-info">
-                    <p><%= message %></p>
+                    <p><%= error %></p>
                 </div>
-            <% } %>
+            <% }) %>
 
             <div class="row">
                 <!-- Signup Form -->

@@ -1,3 +1,5 @@
+const User = require('../models/user');
+
 const validateG2Middleware = (req, res, next) => {
     let errors = {};
 
@@ -26,7 +28,6 @@ const validateGMiddleware = async (req, res, next) => {
     if (!req.body.plateNumber || req.body.plateNumber.trim() === '') errors.plateNumber = 'Plate number is required.';
 
     if (Object.keys(errors).length > 0) {
-        const User = require('../models/user');
         try {
             const user = await User.findOne({ licenseNo: req.body.licenseNumber });
             if (!user) {
@@ -42,7 +43,23 @@ const validateGMiddleware = async (req, res, next) => {
     next();
 };
 
+const validateSignup = async (req, res, next) => {
+    const { username, password, repeat_password } = req.body;
+    let errors = [];
+
+    if (!username || !password || !repeat_password) errors.push('Please fill in all fields');
+    if (await User.findOne({ username })) errors.push('Username is already taken');
+    if (password !== repeat_password) errors.push('Repeat password does not match')
+
+    if (errors.length > 0) {
+        res.render('login', { page: 'login/signup', errors });
+    } else {
+        next();
+    }
+};
+
 module.exports = {
     validateG2Middleware,
     validateGMiddleware,
+    validateSignup
 };
