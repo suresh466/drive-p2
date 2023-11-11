@@ -4,42 +4,67 @@
     <body>
         <%- include ('layouts/navbar'); -%>
         <%- include ('layouts/hero'); -%>
-        <!-- main content -->
-        <%if (typeof message !== 'undefined') {%>
-        <p><%= message %></p>
-        <% } %>
-        <h2>Signup</h2>
-        <form action="/signup" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+        <div class="container mt-4">
+            <% if (typeof message !== 'undefined') { %>
+                <div class="alert alert-info">
+                    <p><%= message %></p>
+                </div>
+            <% } %>
 
-            <label for="repeat_password">Repeat Password:</label>
-            <input type="password" id="repeat_password" name="repeat_password" required>
+            <div class="row">
+                <!-- Signup Form -->
+                <div class="col-md-6">
+                    <h2 class="mb-3">Signup</h2>
+                    <form action="/signup" method="POST" class="mb-4">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" class="form-control" required>
+                        </div>
 
-            <label for="userType">User Type:</label>
-            <select id="userType" name="userType">
-                <option value="Driver">Driver</option>
-                <option value="Examiner">Examiner</option>
-                <option value="Admin">Admin</option>
-            </select>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
 
-            <button type="submit">Signup</button>
-        </form>
-        <hr>
+                        <div class="form-group">
+                            <label for="repeat_password">Repeat Password:</label>
+                            <input type="password" id="repeat_password" name="repeat_password" class="form-control" required>
+                        </div>
 
-        <h2>Login</h2>
-        <form action="/login" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+                        <div class="form-group">
+                            <label for="userType">User Type:</label>
+                            <select id="userType" name="userType" class="form-control custom-select">
+                                <option value="Driver">Driver</option>
+                                <option value="Examiner">Examiner</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+                        <button type="submit" class="btn btn-primary">Signup</button>
+                    </form>
+                </div>
 
-            <button type="submit">Login</button>
-        </form>
+                <!-- Login Form -->
+                <div class="col-md-6">
+                    <h2 class="mb-3">Login</h2>
+                    <form action="/login" method="POST">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <%- include ('layouts/scripts'); -%>
     </body>
 </html>
