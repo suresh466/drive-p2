@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user');
 
 const renderLogin = (req, res) => {
-    res.render('login', {page: 'login/signup'});
+    res.render('login', { page: 'login/signup', errors: [] });
 }
 
 const login = async (req, res) => {
@@ -13,7 +13,7 @@ const login = async (req, res) => {
             req.session.userId = user._id;
             res.redirect('/dashboard');
         } else {
-            res.render('login', {page: 'login/signup', errors: [] });
+            res.render('login', {page: 'login/signup', errors: ['Invalid Credentials'] });
         }
     } catch (err) {
         res.status(500).send('Error during login: ' + err.message)
